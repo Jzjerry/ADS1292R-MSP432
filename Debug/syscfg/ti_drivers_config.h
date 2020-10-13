@@ -44,8 +44,12 @@ extern "C" {
 #define CONFIG_ADS1292_CS           1
 /* P2.4 */
 #define CONFIG_ADS1292_RDY          2
-/* P10.1 */
+/* P10.2 */
 #define CONFIG_GPIO_LCD_DC          3
+/* P10.3 */
+#define CONFIG_ESP_RESET            4
+/* P1.4, LaunchPad Button S2 (Right) */
+#define CONFIG_GPIO_Button          5
 
 /* LEDs are active high */
 #define CONFIG_GPIO_LED_ON  (1)
@@ -63,18 +67,18 @@ extern "C" {
  *  SCL: P6.5
  *  SDA: P6.4
  */
-#define CONFIG_I2C_LMT70            0
+#define CONFIG_I2C_6050             0
 
 /* ======== I2C Addresses and Speeds ======== */
 #include <ti/drivers/I2C.h>
 
-/* ---- CONFIG_I2C_LMT70 I2C bus components ---- */
+/* ---- CONFIG_I2C_6050 I2C bus components ---- */
 
-/* no components connected to CONFIG_I2C_LMT70 */
+/* no components connected to CONFIG_I2C_6050 */
 
 /* max speed unspecified, defaulting to 100 Kbps */
-#define CONFIG_I2C_LMT70_MAXSPEED   (100U) /* Kbps */
-#define CONFIG_I2C_LMT70_MAXBITRATE ((I2C_BitRate)I2C_100kHz)
+#define CONFIG_I2C_6050_MAXSPEED   (100U) /* Kbps */
+#define CONFIG_I2C_6050_MAXBITRATE ((I2C_BitRate)I2C_100kHz)
 
 
 /*
@@ -88,10 +92,10 @@ extern "C" {
  */
 #define CONFIG_SPI_0                0
 /*
- *  MOSI: P7.4
- *  MISO: P7.6
- *  SCLK: P7.7
- *  SS: P7.5
+ *  MOSI: P6.6
+ *  MISO: P6.7
+ *  SCLK: P10.1
+ *  SS: P8.0
  */
 #define CONFIG_SPI_LCD              1
 
@@ -107,10 +111,10 @@ extern "C" {
  */
 
 /*
- *  TX: P3.5
- *  RX: Unassigned
+ *  TX: P3.6
+ *  RX: P3.7
  */
-#define CONFIG_UART_HMI             0
+#define CONFIG_UART_ESP             0
 /*
  *  TX: P1.3
  *  RX: P1.2

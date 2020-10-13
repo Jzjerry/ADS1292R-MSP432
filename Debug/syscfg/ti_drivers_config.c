@@ -154,7 +154,11 @@ GPIO_PinConfig gpioPinConfigs[] = {
     /* CONFIG_ADS1292_RDY */
     GPIOMSP432_P2_4 | GPIO_CFG_IN_PU | GPIO_CFG_IN_INT_FALLING,
     /* CONFIG_GPIO_LCD_DC */
-    GPIOMSP432_P10_1 | GPIO_CFG_OUT_STD | GPIO_CFG_OUT_STR_MED | GPIO_CFG_OUT_LOW,
+    GPIOMSP432_P10_2 | GPIO_CFG_OUT_STD | GPIO_CFG_OUT_STR_MED | GPIO_CFG_OUT_LOW,
+    /* CONFIG_ESP_RESET */
+    GPIOMSP432_P10_3 | GPIO_CFG_OUT_STD | GPIO_CFG_OUT_STR_MED | GPIO_CFG_OUT_LOW,
+    /* CONFIG_GPIO_Button : LaunchPad Button S2 (Right) */
+    GPIOMSP432_P1_4 | GPIO_CFG_IN_PU | GPIO_CFG_IN_INT_RISING,
 };
 
 /*
@@ -174,6 +178,10 @@ GPIO_CallbackFxn gpioCallbackFunctions[] = {
     NULL,
     /* CONFIG_GPIO_LCD_DC */
     NULL,
+    /* CONFIG_ESP_RESET */
+    NULL,
+    /* CONFIG_GPIO_Button : LaunchPad Button S2 (Right) */
+    NULL,
 };
 
 /*
@@ -182,8 +190,8 @@ GPIO_CallbackFxn gpioCallbackFunctions[] = {
 const GPIOMSP432_Config GPIOMSP432_config = {
     .pinConfigs = (GPIO_PinConfig *)gpioPinConfigs,
     .callbacks = (GPIO_CallbackFxn *)gpioCallbackFunctions,
-    .numberOfPinConfigs = 4,
-    .numberOfCallbacks = 4,
+    .numberOfPinConfigs = 6,
+    .numberOfCallbacks = 6,
     .intPriority = (~0)
 };
 
@@ -210,7 +218,7 @@ I2CMSP432_Object i2cMSP432Objects[CONFIG_I2C_COUNT];
  *  ======== i2cMSP432HWAttrs ========
  */
 const I2CMSP432_HWAttrsV1 i2cMSP432HWAttrs[CONFIG_I2C_COUNT] = {
-    /* CONFIG_I2C_LMT70 */
+    /* CONFIG_I2C_6050 */
     {
         .baseAddr = EUSCI_B1_BASE,
         .intNum = INT_EUSCIB1,
@@ -225,11 +233,11 @@ const I2CMSP432_HWAttrsV1 i2cMSP432HWAttrs[CONFIG_I2C_COUNT] = {
  *  ======== I2C_config ========
  */
 const I2C_Config I2C_config[CONFIG_I2C_COUNT] = {
-    /* CONFIG_I2C_LMT70 */
+    /* CONFIG_I2C_6050 */
     {
         .fxnTablePtr = &I2CMSP432_fxnTable,
-        .object = &i2cMSP432Objects[CONFIG_I2C_LMT70],
-        .hwAttrs = &i2cMSP432HWAttrs[CONFIG_I2C_LMT70]
+        .object = &i2cMSP432Objects[CONFIG_I2C_6050],
+        .hwAttrs = &i2cMSP432HWAttrs[CONFIG_I2C_6050]
     },
 };
 
@@ -310,19 +318,19 @@ const SPIMSP432DMA_HWAttrsV1 spiMSP432DMAHWAttrs[CONFIG_SPI_COUNT] = {
     },
     /* CONFIG_SPI_LCD */
     {
-        .baseAddr = EUSCI_B2_BASE,
+        .baseAddr = EUSCI_B3_BASE,
         .bitOrder = EUSCI_B_SPI_MSB_FIRST,
         .clockSource = EUSCI_B_SPI_CLOCKSOURCE_SMCLK,
         .defaultTxBufValue = ~0,
         .intPriority = (~0),
-        .dmaIntNum = INT_DMA_INT3,
-        .rxDMAChannelIndex = DMA_CH7_EUSCIB2RX1,
-        .txDMAChannelIndex = DMA_CH6_EUSCIB2TX1,
+        .dmaIntNum = INT_DMA_INT1,
+        .rxDMAChannelIndex = DMA_CH7_EUSCIB3RX0,
+        .txDMAChannelIndex = DMA_CH6_EUSCIB3TX0,
         .pinMode = EUSCI_SPI_4PIN_UCxSTE_ACTIVE_HIGH,
-        .clkPin  = SPIMSP432DMA_P7_7_UCB2CLK,
-        .simoPin = SPIMSP432DMA_P7_4_UCB2SIMO,
-        .somiPin = SPIMSP432DMA_P7_6_UCB2SOMI,
-        .stePin  = SPIMSP432DMA_P7_5_UCB2STE,
+        .clkPin  = SPIMSP432DMA_P10_1_UCB3CLK,
+        .simoPin = SPIMSP432DMA_P6_6_UCB3SIMO,
+        .somiPin = SPIMSP432DMA_P6_7_UCB3SOMI,
+        .stePin  = SPIMSP432DMA_P8_0_UCB3STE,
         .minDmaTransferSize = 10,
     },
 };
@@ -430,14 +438,14 @@ static const UARTMSP432_HWAttrsV1 uartMSP432HWAttrs[CONFIG_UART_COUNT] = {
     .baudrateLUT        = uartMSP432Baudrates,
     .ringBufPtr         = uartMSP432RingBuffer0,
     .ringBufSize        = sizeof(uartMSP432RingBuffer0),
-    .rxPin              = 0,
-    .txPin              = UARTMSP432_P3_5_UCA1TXD,
+    .rxPin              = UARTMSP432_P3_7_UCA1RXD,
+    .txPin              = UARTMSP432_P3_6_UCA1TXD,
     .errorFxn           = NULL
   },
   {
     .baseAddr           = EUSCI_A0_BASE,
     .intNum             = INT_EUSCIA0,
-    .intPriority        = 0xc0,
+    .intPriority        = (~0),
     .clockSource        = EUSCI_A_UART_CLOCKSOURCE_SMCLK,
     .bitOrder           = EUSCI_A_UART_LSB_FIRST,
     .numBaudrateEntries = sizeof(uartMSP432Baudrates) /
@@ -452,7 +460,7 @@ static const UARTMSP432_HWAttrsV1 uartMSP432HWAttrs[CONFIG_UART_COUNT] = {
 };
 
 const UART_Config UART_config[CONFIG_UART_COUNT] = {
-    {   /* CONFIG_UART_HMI */
+    {   /* CONFIG_UART_ESP */
         .fxnTablePtr = &UARTMSP432_fxnTable,
         .object      = &uartMSP432Objects[0],
         .hwAttrs     = &uartMSP432HWAttrs[0]

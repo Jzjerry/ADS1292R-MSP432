@@ -14,6 +14,7 @@ SYSCFG_SRCS += \
 C_SRCS += \
 ../ADS1292R.c \
 ../ADS1292R_SPI.c \
+../ESP8266.c \
 ../Fliter.c \
 ../LMT70_I2C.c \
 ../Pan_Tompkins.c \
@@ -33,6 +34,7 @@ GEN_MISC_DIRS += \
 C_DEPS += \
 ./ADS1292R.d \
 ./ADS1292R_SPI.d \
+./ESP8266.d \
 ./Fliter.d \
 ./LMT70_I2C.d \
 ./Pan_Tompkins.d \
@@ -46,6 +48,7 @@ C_DEPS += \
 OBJS += \
 ./ADS1292R.obj \
 ./ADS1292R_SPI.obj \
+./ESP8266.obj \
 ./Fliter.obj \
 ./LMT70_I2C.obj \
 ./Pan_Tompkins.obj \
@@ -66,6 +69,7 @@ GEN_MISC_DIRS__QUOTED += \
 OBJS__QUOTED += \
 "ADS1292R.obj" \
 "ADS1292R_SPI.obj" \
+"ESP8266.obj" \
 "Fliter.obj" \
 "LMT70_I2C.obj" \
 "Pan_Tompkins.obj" \
@@ -83,6 +87,7 @@ GEN_MISC_FILES__QUOTED += \
 C_DEPS__QUOTED += \
 "ADS1292R.d" \
 "ADS1292R_SPI.d" \
+"ESP8266.d" \
 "Fliter.d" \
 "LMT70_I2C.d" \
 "Pan_Tompkins.d" \
@@ -99,6 +104,7 @@ GEN_FILES__QUOTED += \
 C_SRCS__QUOTED += \
 "../ADS1292R.c" \
 "../ADS1292R_SPI.c" \
+"../ESP8266.c" \
 "../Fliter.c" \
 "../LMT70_I2C.c" \
 "../Pan_Tompkins.c" \

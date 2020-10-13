@@ -19,9 +19,9 @@ uint8_t LMT70_WRITE_DATA[1];
 
 
 const uint8_t LMT70_ADDR = 0x68;
-static I2C_Params params;
-static I2C_Handle i2cHandle;
-static I2C_Transaction transaction;
+//static I2C_Params params;
+//static I2C_Handle i2cHandle;
+//static I2C_Transaction transaction;
 bool well_trans;
 
 
@@ -44,7 +44,7 @@ float slope_tabl[VOL2TEMP_TABLE_SIZE] = {
                                 5.538
 };
 
-
+/*
 void LMT70_I2C_INIT(void)
 {
     I2C_Params_init(&params);
@@ -57,8 +57,9 @@ void LMT70_I2C_INIT(void)
     transaction.readBuf = LMT70_IN_DATA;
     transaction.readCount = 4;
 }
+*/
 
-
+/*
 float MSP_LMT70_I2C_read_data(void)
 {
     i2cHandle= I2C_open(CONFIG_I2C_LMT70, &params);
@@ -75,7 +76,7 @@ float MSP_LMT70_I2C_read_data(void)
     I2C_close(i2cHandle);
     return (float)ADC_Read;
 }
-
+*/
 
 /* 折半查找算法 */
 /* up为v2t_tabl表中的下标*/

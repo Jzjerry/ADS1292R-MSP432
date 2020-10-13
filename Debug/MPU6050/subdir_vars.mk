@@ -6,21 +6,27 @@ SHELL = cmd.exe
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../LCD/LCD_Display.c 
+../MPU6050/MPU6050.c \
+../MPU6050/MPU6050_I2C.c 
 
 C_DEPS += \
-./LCD/LCD_Display.d 
+./MPU6050/MPU6050.d \
+./MPU6050/MPU6050_I2C.d 
 
 OBJS += \
-./LCD/LCD_Display.obj 
+./MPU6050/MPU6050.obj \
+./MPU6050/MPU6050_I2C.obj 
 
 OBJS__QUOTED += \
-"LCD\LCD_Display.obj" 
+"MPU6050\MPU6050.obj" \
+"MPU6050\MPU6050_I2C.obj" 
 
 C_DEPS__QUOTED += \
-"LCD\LCD_Display.d" 
+"MPU6050\MPU6050.d" \
+"MPU6050\MPU6050_I2C.d" 
 
 C_SRCS__QUOTED += \
-"../LCD/LCD_Display.c" 
+"../MPU6050/MPU6050.c" \
+"../MPU6050/MPU6050_I2C.c" 
 
 

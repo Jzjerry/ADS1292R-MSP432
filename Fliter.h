@@ -10,10 +10,10 @@
 
 
 
-#define WIN_LENGTH 20
+#define WIN_LENGTH 10
 #define SAMPLE_INPUT_LENGTH 512
-#define FIR_LENGTH 49            //25Hz LP Filter
-//#define FIR_LENGTH 64            //40Hz LP Filter
+//#define FIR_LENGTH 49            //25Hz LP Filter
+#define FIR_LENGTH 64            //40Hz LP Filter
 
 #define FIR_Notch_LENGTH 65
 

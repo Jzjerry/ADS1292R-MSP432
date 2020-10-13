@@ -17,6 +17,18 @@ static Timer_Params    params;
 static int32_t sum[INTERGATE_SIZE+1]={0};
 
 int32_t peak = 0;
+int32_t depth = 0;
+int32_t peak_now = 0;
+
+
+int32_t old_max = 0;
+int32_t old_min = 0;
+
+int32_t new_max = -0xffffff;
+int32_t new_min = 0xffffff;
+
+int32_t detect_count = 0;
+
 static int32_t last_diff = 0;
 static int32_t diff = 0;
 static int32_t last_result = 0;
@@ -26,8 +38,11 @@ int32_t get_count = 0;
 uint16_t rate = 0;
 float32_t noise_level = 1000000;
 float32_t signal_level = 6000000;
-float32_t threshold = 1500;
+float32_t threshold = 1000;
 static bool peak_lock = true;
+
+
+extern int32_t ecg_offset;
 
 int32_t pan_tompkins(int32_t data)
 {
@@ -81,7 +96,7 @@ void Pace_init( void )
 {
     Timer_Params_init(&params);
     params.periodUnits = Timer_PERIOD_US;
-    params.period = 100000;             //100ms
+    params.period = 300000;             //300ms
     params.timerMode  = Timer_ONESHOT_CALLBACK;
     params.timerCallback = lock_callback;
     handle = Timer_open(CONFIG_TIMER_PACE, &params);
@@ -106,21 +121,51 @@ void lock_callback(Timer_Handle myHandle)
 
 void peak_detect( int32_t data)
 {
-
     int32_t result = data;
     diff = result - last_result;
-    if(((diff<0)&&(last_diff>0))&&(peak_lock))
+    if(((diff<0)&&(last_diff>0)))
     {
-        if( result > threshold )
+        if(peak_lock)
         {
-            peak = result;
-            rate = get_count;
-            get_count = 0;
-            //peak_lock = false;
-            //Timer_start( handle );
+            if( result > threshold )
+            {
+                peak = result;
+                peak_now = result;
+                rate = get_count;
+                get_count = 0;
+                peak_lock = false;
+                Timer_start( handle );
+            }
+        }
+
+        if(result > new_max)
+        {
+            new_max = result;
         }
     }
+    else if((diff>0)&&(last_diff<0))
+    {
+        depth = result;
+        if(result < new_min)
+        {
+            new_min = result;
+        }
+    }
+    if( detect_count >= 750 )
+    {
+        if(new_max-new_min>192)
+        {
+            old_max = new_max;
+            old_min = new_min;
+
+            threshold = (old_max-old_min)*0.9 + old_min;
+        }
+        new_max = -0xffffff;
+        new_min = 0xffffff;
+        detect_count = 0;
+    }
     get_count++;
+    detect_count++;
     last_result = result;
     last_diff = diff;
 }

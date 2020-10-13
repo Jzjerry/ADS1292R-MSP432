@@ -17,6 +17,8 @@ const GPIO1    = GPIO.addInstance();
 const GPIO2    = GPIO.addInstance();
 const GPIO3    = GPIO.addInstance();
 const GPIO4    = GPIO.addInstance();
+const GPIO5    = GPIO.addInstance();
+const GPIO6    = GPIO.addInstance();
 const I2C      = scripting.addModule("/ti/drivers/I2C", {}, false);
 const I2C1     = I2C.addInstance();
 const RTOS     = scripting.addModule("/ti/drivers/RTOS");
@@ -31,10 +33,9 @@ const UART1    = UART.addInstance();
 /**
  * Write custom configuration values to the imported modules.
  */
-Display1.$name                  = "CONFIG_Display_0";
-Display1.$hardware              = system.deviceData.board.components.XDS110UART;
-Display1.uart.$name             = "CONFIG_UART_0";
-Display1.uart.interruptPriority = "6";
+Display1.$name      = "CONFIG_Display_0";
+Display1.$hardware  = system.deviceData.board.components.XDS110UART;
+Display1.uart.$name = "CONFIG_UART_0";
 
 ADC1.$name              = "CONFIG_ADC_0";
 ADC1.referenceVoltage   = "2.5V";
@@ -60,7 +61,14 @@ GPIO3.gpioPin.$assign  = "boosterpack.38";
 GPIO4.$name = "CONFIG_GPIO_LCD_DC";
 GPIO4.mode  = "Output";
 
-I2C1.$name              = "CONFIG_I2C_LMT70";
+GPIO5.mode  = "Output";
+GPIO5.$name = "CONFIG_ESP_RESET";
+
+GPIO6.$hardware        = system.deviceData.board.components.S2;
+GPIO6.$name            = "CONFIG_GPIO_Button";
+GPIO6.interruptTrigger = "Rising Edge";
+
+I2C1.$name              = "CONFIG_I2C_6050";
 I2C1.i2c.$assign        = "EUSCI_B1";
 I2C1.i2c.sdaPin.$assign = "boosterpack.10";
 I2C1.i2c.sclPin.$assign = "boosterpack.9";
@@ -87,8 +95,10 @@ SPI2.mode  = "Four Pin SS Active High";
 Timer1.$name         = "CONFIG_TIMER_PACE";
 Timer1.timer.$assign = "Timer_A1";
 
-UART1.$name         = "CONFIG_UART_HMI";
-UART1.dataDirection = "Send Only";
+UART1.$name              = "CONFIG_UART_ESP";
+UART1.uart.$assign       = "EUSCI_A1";
+UART1.uart.txPin.$assign = "boosterpack.11";
+UART1.uart.rxPin.$assign = "boosterpack.31";
 
 /**
  * Pinmux solution for unlocked pins/peripherals. This ensures that minor changes to the automatic solver in a future
@@ -98,15 +108,15 @@ UART1.dataDirection = "Send Only";
 Display1.uart.uart.$suggestSolution          = "EUSCI_A0";
 Display1.uart.uart.txPin.$suggestSolution    = "P1.3.GPIO/EUSCI_A0_UART.TXD/EUSCI_A0_SPI.SIMO";
 Display1.uart.uart.rxPin.$suggestSolution    = "P1.2.GPIO/EUSCI_A0_UART.RXD/EUSCI_A0_SPI.SOMI";
-GPIO4.gpioPin.$suggestSolution               = "expansion.28";
+GPIO4.gpioPin.$suggestSolution               = "expansion.29";
+GPIO5.gpioPin.$suggestSolution               = "expansion.30";
+GPIO6.gpioPin.$suggestSolution               = "P1.4.GPIO/EUSCI_B0_SPI.STE";
 RTOS.timer0.resource.$suggestSolution        = "Timer_A0";
-SPI2.spi.$suggestSolution                    = "EUSCI_B2";
-SPI2.spi.sclkPin.$suggestSolution            = "expansion.26";
-SPI2.spi.misoPin.$suggestSolution            = "expansion.25";
-SPI2.spi.mosiPin.$suggestSolution            = "expansion.23";
-SPI2.spi.ssPin.$suggestSolution              = "expansion.24";
+SPI2.spi.$suggestSolution                    = "EUSCI_B3";
+SPI2.spi.sclkPin.$suggestSolution            = "expansion.28";
+SPI2.spi.misoPin.$suggestSolution            = "boosterpack.35";
+SPI2.spi.mosiPin.$suggestSolution            = "boosterpack.36";
+SPI2.spi.ssPin.$suggestSolution              = "expansion.21";
 SPI2.spi.dmaRxChannel.$suggestSolution       = "DMA_CH7";
 SPI2.spi.dmaTxChannel.$suggestSolution       = "DMA_CH6";
-SPI2.spi.dmaInterruptNumber.$suggestSolution = "DMA_INT3";
-UART1.uart.$suggestSolution                  = "EUSCI_A1";
-UART1.uart.txPin.$suggestSolution            = "boosterpack.32";
+SPI2.spi.dmaInterruptNumber.$suggestSolution = "DMA_INT1";

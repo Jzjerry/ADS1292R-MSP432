@@ -12,6 +12,7 @@ GEN_CMDS__FLAG := -l"D:/Developing/MSP_Proj/tirtos_builds_MSP_EXP432P401R_releas
 ORDERED_OBJS += \
 "./ADS1292R.obj" \
 "./ADS1292R_SPI.obj" \
+"./ESP8266.obj" \
 "./Fliter.obj" \
 "./LMT70_I2C.obj" \
 "./Pan_Tompkins.obj" \
@@ -21,8 +22,8 @@ ORDERED_OBJS += \
 "./main.obj" \
 "./syscfg/ti_drivers_config.obj" \
 "./main_tirtos.obj" \
-"./LCD/HMI_Display.obj" \
-"./LCD/LCD_Display.obj" \
+"./MPU6050/MPU6050.obj" \
+"./MPU6050/MPU6050_I2C.obj" \
 "../MSP_EXP432P401R_TIRTOS.cmd" \
 -l"ti/display/lib/display.aem4f" \
 -l"ti/grlib/lib/ccs/m4f/grlib.a" \
@@ -42,9 +43,9 @@ RMDIR := RMDIR /S/Q
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include subdir_vars.mk
--include LCD/subdir_vars.mk
+-include MPU6050/subdir_vars.mk
 -include subdir_rules.mk
--include LCD/subdir_rules.mk
+-include MPU6050/subdir_rules.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
@@ -178,8 +179,8 @@ ADS1292R_MSP432P401R.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(GEN_MISC_FILES__QUOTED)$(BIN_OUTPUTS__QUOTED)$(GEN_FILES__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "ADS1292R.obj" "ADS1292R_SPI.obj" "Fliter.obj" "LMT70_I2C.obj" "Pan_Tompkins.obj" "Serial_Display.obj" "arm_fir_f32.obj" "arm_fir_init_f32.obj" "main.obj" "syscfg\ti_drivers_config.obj" "main_tirtos.obj" "LCD\HMI_Display.obj" "LCD\LCD_Display.obj" 
-	-$(RM) "ADS1292R.d" "ADS1292R_SPI.d" "Fliter.d" "LMT70_I2C.d" "Pan_Tompkins.d" "Serial_Display.d" "arm_fir_f32.d" "arm_fir_init_f32.d" "main.d" "syscfg\ti_drivers_config.d" "main_tirtos.d" "LCD\HMI_Display.d" "LCD\LCD_Display.d" 
+	-$(RM) "ADS1292R.obj" "ADS1292R_SPI.obj" "ESP8266.obj" "Fliter.obj" "LMT70_I2C.obj" "Pan_Tompkins.obj" "Serial_Display.obj" "arm_fir_f32.obj" "arm_fir_init_f32.obj" "main.obj" "syscfg\ti_drivers_config.obj" "main_tirtos.obj" "MPU6050\MPU6050.obj" "MPU6050\MPU6050_I2C.obj" 
+	-$(RM) "ADS1292R.d" "ADS1292R_SPI.d" "ESP8266.d" "Fliter.d" "LMT70_I2C.d" "Pan_Tompkins.d" "Serial_Display.d" "arm_fir_f32.d" "arm_fir_init_f32.d" "main.d" "syscfg\ti_drivers_config.d" "main_tirtos.d" "MPU6050\MPU6050.d" "MPU6050\MPU6050_I2C.d" 
 	-$(RMDIR) $(GEN_MISC_DIRS__QUOTED)
 	-@echo 'Finished clean'
 	-@echo ' '

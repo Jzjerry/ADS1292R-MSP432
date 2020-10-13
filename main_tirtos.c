@@ -83,6 +83,5 @@ int main(void)
         while (1) {}
     }
     BIOS_start();
-
     return (0);
 }
