@@ -46,10 +46,6 @@ void *uartThread(void *arg)
 {
     ESP8266_init();
 
-    //uint8_t data1 = 24;
-    //uint8_t data2 = 42;
-    //const char buff[] = "hello";
-
     while(1)
     {
         sem_wait(&Uart_sem);
@@ -65,7 +61,6 @@ void *uartThread(void *arg)
         uart_Sendu8(step_cnt);
         usleep(10000);
     }
-    //return NULL;
 }
 
 
@@ -171,8 +166,6 @@ void uart_Sendu8( uint8_t data )
 
 bool ESP8266_Wait_For_Ans( uint32_t timeout )
 {
-    uint8_t c;
-    uint32_t i = 0;
     while(timeout)
     {
         if(UART_read(handle, &ESP8266_Buffer, 50))
@@ -206,10 +199,4 @@ bool ESP8266_Send_Cmd(const char* cmd)
         return true;
     }*/
     return true;
-}
-
-char* Data_Packet_create( void )
-{
-    char* string;
-    return string;
 }

@@ -1,33 +1,5 @@
 /*
- * Copyright (c) 2015-2019, Texas Instruments Incorporated
- * All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- *
- * *  Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- *
- * *  Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- *
- * *  Neither the name of Texas Instruments Incorporated nor the names of
- *    its contributors may be used to endorse or promote products derived
- *    from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
- * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
- * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
- * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
- * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
- * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
- * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS;
- * OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
- * WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR
- * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
- * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ * TODO: License information to be written
  */
 
 /*
@@ -75,8 +47,6 @@
 #include <ti/display/Display.h>
 #include <ti/drivers/ADC.h>
 #include <ti/drivers/Timer.h>
-// #include <ti/drivers/Capture.h>
-// #include <ti/drivers/Watchdog.h>
 #include <pthread.h>
 #include <semaphore.h>
 
@@ -88,7 +58,7 @@
 /* User Lib */
 #include <ADS1292R.h>
 #include <ADS1292R_SPI.h>
-#include <LMT70_I2C.h>
+#include <LMT70.h>
 #include <Fliter.h>
 #include <Pan_Tompkins.h>
 #include <ESP8266.h>
@@ -99,9 +69,6 @@
 /* User Variables */
 static Display_Handle handle;
 static Display_Params params;
-
-//int32_t channel_one[DEBUG_BUFFER_LENGTH];
-//int32_t channel_two[DEBUG_BUFFER_LENGTH];
 
 float32_t FIR_input[SAMPLE_INPUT_LENGTH];
 float32_t FIR_output[SAMPLE_INPUT_LENGTH];
@@ -116,8 +83,6 @@ int32_t last_diff = 0;
 uint32_t counter = 0;
 
 int32_t ecg_offset = 0;
-
-//int32_t ecg_offset = 0;
 
 int32_t max;
 int32_t min;
@@ -136,10 +101,7 @@ bool Sending_Start = false;
 
 extern int32_t peak;
 extern float32_t threshold;
-/*
-extern int32_t peak_now;
-extern int32_t depth;
-*/
+
 extern int32_t old_max;
 extern int32_t old_min;
 extern uint16_t rate;
@@ -188,8 +150,6 @@ void *ledThread (void *arg1)
  */
 void *mainThread(void *arg0)
 {
-    /* 10 m second delay */
-    // uint32_t time = 10000;
 
     /* Call driver init functions */
     GPIO_init();
@@ -198,7 +158,6 @@ void *mainThread(void *arg0)
     UART_init();
     ADC_init();
     Timer_init();
-    // Watchdog_init();
     Display_init();
     Display_Params_init(&params);
 

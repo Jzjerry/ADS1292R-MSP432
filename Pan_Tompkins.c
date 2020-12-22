@@ -44,6 +44,8 @@ static bool peak_lock = true;
 
 extern int32_t ecg_offset;
 
+
+// NOTICE:This function have not put into use
 int32_t pan_tompkins(int32_t data)
 {
     static uint8_t win_now = 1;
